@@ -1,0 +1,21 @@
+Help Document and Bioinformatics Log
+Erik A Koppes
+Postdoctoral Associate
+Mellissa R W Mann Lab
+
+## 3/20/2024
+1. Setup fastqc for run using CnR_MannLab_fqlist_02262024 as file input list
+and fastqc implementation using CnR_allelespec_fastqc.sh
+
+2. Use multiQC to collate final
+module load multiqc/1.19
+multiqc --filename "CnR_allele_pretrim_multiQC" 
+
+
+3. setup trimgalore with post-trim fastqc
+
+3. setup bowtie2 alignment to N-masked genome
+@PG	ID:bowtie2	PN:bowtie2	VN:2.4.4	CL:"/usr/local/bin/bowtie2-align-s --wrapper basic-0 -x ./Bowtie2Index/genome --threads 12 --end-to-end --very-sensitive --no-mixed --no-discordant --phred33 --minins 10 --maxins 700 --dovetail -1 BCSD_R1_1.trimmed.fastq.gz -2 BCSD_R1_2.trimmed.fastq.gz"
+and get samtools stats
+stats --threads 1 --reference genome.fa BCSF_R1.target.markdup.sorted.bam
+4. setup bowtie or bwa mem alignment with ecoli
