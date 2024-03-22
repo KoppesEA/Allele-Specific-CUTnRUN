@@ -36,6 +36,7 @@ trim_galore \
 --illumina \
 --quality 20 \
 --e 0.1 \
+--length 25 \
 --phred33 \
 --stringency 1 \
 --cores 4 \
