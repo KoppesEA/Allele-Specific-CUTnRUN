@@ -45,6 +45,6 @@ bowtie2 \
 --no-discordant \
 -I 10 -X 700 \
 --dovetail \
--1 INPUT_FASTQ1 \
--2 INPUT_FASTQ2 \
+-1 $INPUT_FASTQ1 \
+-2 $INPUT_FASTQ2 \
 -S $SAMout

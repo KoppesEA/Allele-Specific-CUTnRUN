@@ -3,7 +3,7 @@
 #SBATCH -N 1
 #SBATCH -t 1-00:00
 #SBATCH -J SNPsplit_mGRC39
-#SBATCH --output=CastEiJ_snpsplit_genomegen_out-%A_%a.txt
+#SBATCH --output=CastEiJ_snpsplit_genomegen_out.txt
 #SBATCH --cpus-per-task=16
 #SBATCH --mem=24g 
 
