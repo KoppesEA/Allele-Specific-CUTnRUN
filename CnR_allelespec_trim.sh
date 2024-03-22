@@ -2,21 +2,21 @@
 #
 #SBATCH -N 1 # 1 node
 #SBATCH -t 1-00:00 # Runtime in D-HH:MM
-#SBATCH -J CnRfqc
-#SBATCH --output=CnRfqc-%A_%a.txt
+#SBATCH -J CnRtrim
+#SBATCH --output=CnRtrim-%A_%a.txt
 #SBATCH --cpus-per-task=1 # fastqc does not support multithread
-#SBATCH --mem=16g # prob overkill (see also --mem-per-cpu)
+#SBATCH --mem=16g # (see also --mem-per-cpu)
 #SBATCH --array=0-12 #13 samples
 
 #set path Fastq directories and output directories
 DIRfq=./rawfastq
-DIRfqQC=$DIRfq/FastQC
+DIRtrim=./trimfastq
 
 #make output directory
-mkdir $DIRfqQC
+mkdir $DIRtrim
 
-#Load fastqc v0.11.9
-module load fastqc/0.11.9
+#Load trimgalore v0.6.5
+module load trimgalore/0.6.5
 
 #Extract fq sample names from list text file
 names=($(cat CnR_MannLab_fqlist_02262024.txt))
@@ -26,6 +26,15 @@ fqname=${names[${SLURM_ARRAY_TASK_ID}]}
 INPUT_FASTQ1=${fqname}_1.fastq.gz
 INPUT_FASTQ2=${fqname}_2.fastq.gz
 
-#perform a FastQC analysis for every fastq, including for each read pair
-fastqc -o $DIRfqQC $DIRfq/$INPUT_FASTQ1
-fastqc -o $DIRfqQC $DIRfq/$INPUT_FASTQ2
+echo $INPUT_FASTQ1
+echo $INPUT_FASTQ2
+echo $OUTPUT
+
+#Trim_galore: cutadapt
+mkdir $OUTPUT
+trim_galore \
+--paired \
+--fastqc \
+--gzip \
+--output $DIRtrim \
+$INPUT_FASTQ1 $INPUT_FASTQ2
