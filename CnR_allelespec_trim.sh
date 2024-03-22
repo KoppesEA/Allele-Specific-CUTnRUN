@@ -35,8 +35,8 @@ trim_galore \
 --paired \
 --illumina \
 --quality 20 \
---e 0.1 \
 --length 25 \
+--e 0.1 \
 --phred33 \
 --stringency 1 \
 --cores 4 \

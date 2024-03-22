@@ -13,7 +13,7 @@ multiqc --filename "CnR_allele_pretrim_multiQC"
 
 
 3. setup trimgalore with post-trim fastqc
-
+s
 3. setup bowtie2 alignment to N-masked genome
 @PG	ID:bowtie2	PN:bowtie2	VN:2.4.4	CL:"/usr/local/bin/bowtie2-align-s --wrapper basic-0 -x ./Bowtie2Index/genome --threads 12 --end-to-end --very-sensitive --no-mixed --no-discordant --phred33 --minins 10 --maxins 700 --dovetail -1 BCSD_R1_1.trimmed.fastq.gz -2 BCSD_R1_2.trimmed.fastq.gz"
 and get samtools stats
