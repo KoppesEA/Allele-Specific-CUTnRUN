@@ -59,3 +59,4 @@ FastQC/CnR_allele_pretrim_multiQC_data/multiqc_fastqc.txt
 FastQC/CnR_allele_pretrim_multiQC_data/multiqc_general_stats.txt
 FastQC/CnR_allele_pretrim_multiQC_data/multiqc_software_versions.txt
 FastQC/CnR_allele_pretrim_multiQC_data/multiqc_sources.txt
+snpsplit.help.txt
