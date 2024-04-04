@@ -11,7 +11,7 @@
 
 #set path Fastq directories and output directories
 DIRsplitbam=./snpsplit/bam
-DIRmacs=./MACS/snpsplt_narrowpeaks_wdups_IgG1
+DIRmacs=./MACS/snpsplt_broadpeaks_wdups_IgG1
 
 #make output directory
 mkdir -p $DIRsplitbam
@@ -48,7 +48,8 @@ macs2 callpeak \
 -q 0.01 \
 --bdg \
 --keep-dup all \
--n ${fqname}_B6_wdupsnarrowIgGcon \
+--broad \
+-n ${fqname}_B6_wdupsbroadIgG1con \
 --outdir $DIRmacs \
 
 
@@ -60,6 +61,7 @@ macs2 callpeak \
 -q 0.01 \
 --bdg \
 --keep-dup all \
--n ${fqname}_CAST_wdupsnarrowIgGcon1 \
+--broad \
+-n ${fqname}_CAST_wdupsbroadIgG1con \
 --outdir $DIRmacs
 
