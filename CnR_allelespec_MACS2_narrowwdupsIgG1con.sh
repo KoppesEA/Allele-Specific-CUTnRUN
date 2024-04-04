@@ -48,7 +48,7 @@ macs2 callpeak \
 -q 0.01 \
 --bdg \
 --keep-dup all \
--n ${fqname}_B6_wdupsnarrowIgGcon \
+-n ${fqname}_B6_wdupsnarrowIgG1con \
 --outdir $DIRmacs \
 
 
@@ -60,6 +60,6 @@ macs2 callpeak \
 -q 0.01 \
 --bdg \
 --keep-dup all \
--n ${fqname}_CAST_wdupsnarrowIgGcon1 \
+-n ${fqname}_CAST_wdupsnarrowIgG1con \
 --outdir $DIRmacs
 
