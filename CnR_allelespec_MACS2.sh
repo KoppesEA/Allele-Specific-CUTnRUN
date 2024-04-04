@@ -48,7 +48,9 @@ macs2 callpeak \
 -q 0.01 \
 --bdg \
 --keep-dup all \
---outdir $DIRmacs
+-n ${fqname}B6_wdupsnarrowIgGcon_ \
+--outdir $DIRmacs \
+
 
 macs2 callpeak \
 -t $IP_SPLTBAM_CAST \
@@ -58,5 +60,6 @@ macs2 callpeak \
 -q 0.01 \
 --bdg \
 --keep-dup all \
+-n ${fqname}CAST_wdupsnarrowIgGcon_ \
 --outdir $DIRmacs
 
