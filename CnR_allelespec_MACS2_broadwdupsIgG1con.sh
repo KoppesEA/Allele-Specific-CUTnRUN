@@ -43,7 +43,7 @@ echo "IgG B6 BAM is: " $IGG_SPLTBAM_CAST
 macs2 callpeak \
 -t $IP_SPLTBAM_B6 \
 -c $IGG_SPLTBAM_B6 \
--f BAM \
+-f BAMPE \
 -g mm \
 -q 0.01 \
 --bdg \
@@ -56,7 +56,7 @@ macs2 callpeak \
 macs2 callpeak \
 -t $IP_SPLTBAM_CAST \
 -c $IGG_SPLTBAM_CAST \
--f BAM \
+-f BAMPE \
 -g mm \
 -q 0.01 \
 --bdg \
