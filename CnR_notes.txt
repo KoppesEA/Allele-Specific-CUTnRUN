@@ -3,19 +3,70 @@ Erik A Koppes
 Postdoctoral Associate
 Mellissa R W Mann Lab
 
-## 3/20/2024
-1. Setup fastqc for run using CnR_MannLab_fqlist_02262024 as file input list
+## 3/21/2024
+1A. Setup fastqc for run using CnR_MannLab_fqlist_02262024 as file input list
 and fastqc implementation using CnR_allelespec_fastqc.sh
 
-2. Use multiQC to collate final
+1B. Use multiQC to collate final
 module load multiqc/1.19
 multiqc --filename "CnR_allele_pretrim_multiQC" 
 
+# 3/22/2024
+2A. setup trimgalore with post-trim fastqc
+2B. Use multiQC
 
-3. setup trimgalore with post-trim fastqc
-s
 3. setup bowtie2 alignment to N-masked genome
-@PG	ID:bowtie2	PN:bowtie2	VN:2.4.4	CL:"/usr/local/bin/bowtie2-align-s --wrapper basic-0 -x ./Bowtie2Index/genome --threads 12 --end-to-end --very-sensitive --no-mixed --no-discordant --phred33 --minins 10 --maxins 700 --dovetail -1 BCSD_R1_1.trimmed.fastq.gz -2 BCSD_R1_2.trimmed.fastq.gz"
-and get samtools stats
+3Bsamtools stats-
+3C [mark dup]-to see if dup changes
+
+3. setup bowtie2 alignment to N-masked genome
+3Bsamtools stats
 stats --threads 1 --reference genome.fa BCSF_R1.target.markdup.sorted.bam
-4. setup bowtie or bwa mem alignment with ecoli
+3C dedup [do in parallel with duplicates included as input for snpsplit]
+
+4. SNP split
+needed to combine snpfile chr: cat chr*.txt > Mus_musculus.GRCm38.68.dna.NMASK.fa
+cat chr1.txt chr2.txt chr3.txt chr4.txt chr5.txt chr6.txt chr7.txt chr8.txt chr9.txt chr10.txt \
+chr11.txt chr12.txt chr13.txt chr14.txt chr15.txt chr16.txt chr17.txt chr18.txt chr19.txt chrX.txt > GRCm39_B6CAST_snpsplitSNPs.txt
+SNPsplit [options] --snp_file <SNP.file.gz> [input file(s)]
+Part I of SNP Split converts sam to bam, then sorts bam, 
+Part II of SNP split outputs 2 bams: one for reference, and one for alt 
+
+5. Peak-Calling with MACS2
+5a. peakcall
+
+
+6. bam to bedgraph
+
+## 4/18/24
+Work to continue
+Alternate peak calls with duplications removed
+--use picard tools or just use MACS setting?
+
+
+For current pipeline with MACS2 -dup-keepall
+--should add picard/samtools step to remove optical duplicates
+can use --keep-dup: auto instead of --keep-dup: all
+then can use -p option for bionomial for auto calc of max reads; default =1E-5
+https://github.com/macs3-project/MACS/blob/master/docs/filterdup.md
+For dedup pipeline
+--remove/mark optical/pcr duplicates then macs2 default dup option
+
+
+combine histone replicates fastq with direct concatenation
+
+Need Summary Table and script to automate read calls mapping etc for each sample
+[eak37@htc-1024-n0 MACS]$ pwd
+/ix1/mmann/KoppesEA/Nup107_CR_02262024/MACS
+ wc -l */*Peak
+ want "broadPeak" or "narrowPeak" and not "gappedPeak" counts
+ wc -l */*.narrowPeak */*.broadPeak
+ wc -l */*.narrowPeak */*.broadPeak > PeakCounts.tsv
+ 
+ peak overlap with BSC?
+ 
+ spike in ecoli mapping %
+ 
+ multiQC for trimmed reads
+ 
+ broadPeak analysis with combined IgG...

@@ -4,13 +4,13 @@
 BCSA	NUP107_4
 BCSB	NUP107_6
 BCSC	NUP107_8
-BCSD	NUP10710
+BCSD	NUP107_10
 BCSE	H3K4me	from Kit
 BCSF	IgG	from kit
 BCS1	CTCF_rep1	millipore	07-729	3858178	rabbit
 BCS2	CTCF_rep2	millipore	07-729	3858178	rabbit
-BCS3	H3K4me_rep1	millipore	05-745R	3901946	rabbit
-BCS4	H3K4me_rep2	millipore	05-745R	3901946	rabbit
-BCS5	H3K27me_rep1	millipore	07-449	3921401	rabbit
-BCS6	H3K27me_rep2	millipore	07-449	3921401	rabbit
+BCS3	H3K4me3_rep1	millipore	05-745R	3901946	rabbit
+BCS4	H3K4me3_rep2	millipore	05-745R	3901946	rabbit
+BCS5	H3K27me3_rep1	millipore	07-449	3921401	rabbit
+BCS6	H3K27me3_rep2	millipore	07-449	3921401	rabbit
 BCS7	IgG	
