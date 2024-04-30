@@ -23,12 +23,11 @@ names=($(cat CnR_MannLab_fqlist_02262024.txt))
 echo ${names[${SLURM_ARRAY_TASK_ID}]}
 
 fqname=${names[${SLURM_ARRAY_TASK_ID}]}
-INPUT_FASTQ1=${fqname}_optdedupe_1.fastq.gz
-INPUT_FASTQ2=${fqname}_optdedupe_2.fastq.gz
+INPUT_FASTQ1=$DIRfq/${fqname}_optdedupe_1.fastq.gz
+INPUT_FASTQ2=$DIRfq/${fqname}_optdedupe_2.fastq.gz
 echo "performing quality and adapter trimming for paired-end reads:"
 echo $INPUT_FASTQ1
 echo $INPUT_FASTQ1
-
 
 #Trim_galore: cutadapt
 trim_galore \
@@ -44,3 +43,4 @@ trim_galore \
 --fastqc \
 --output $DIRtrim \
 $INPUT_FASTQ1 $INPUT_FASTQ2
+
