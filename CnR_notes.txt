@@ -50,7 +50,10 @@ can use --keep-dup: auto instead of --keep-dup: all
 then can use -p option for bionomial for auto calc of max reads; default =1E-5
 https://github.com/macs3-project/MACS/blob/master/docs/filterdup.md
 For dedup pipeline
---remove/mark optical/pcr duplicates then macs2 default dup option
+--Optical/PCR duplicates mark/filter in picard from bam [can mark optical tag separately]
+--Optical/PCR duplicates mark/filter in samtools from bam
+--Can use macs2 default dup option to remove both optical/pcr dup
+--BBmap clumpify.sh
 
 
 combine histone replicates fastq with direct concatenation
