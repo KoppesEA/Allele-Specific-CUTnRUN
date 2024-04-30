@@ -26,13 +26,14 @@ fqname=${names[${SLURM_ARRAY_TASK_ID}]}
 INPUT_FASTQ1=$DIRfq/${fqname}_1.fastq.gz
 INPUT_FASTQ2=$DIRfq/${fqname}_2.fastq.gz
 
-OUTPUT_FASTQ1=$DIRdedup/${fqname}__optdedupe_1.fastq.gz
-OUTPUT_FASTQ2=$DIRdedup/${fqname}__optdedupe_2.fastq.gz
+OUTPUT_FASTQ1=$DIRdedup/${fqname}_optdedupe_1.fastq.gz
+OUTPUT_FASTQ2=$DIRdedup/${fqname}_optdedupe_2.fastq.gz
 
 echo "performing optical read deduplication with BBMap clumpify dedupe"
 echo $INPUT_FASTQ1
 echo $INPUT_FASTQ2
-
+echo $OUTPUT_FASTQ1
+echo $OUTPUT_FASTQ2
 
 
 # CnR sequencing on NextSeq at Pitt Core
@@ -40,12 +41,12 @@ echo $INPUT_FASTQ2
 clumpify.sh \
 in=$INPUT_FASTQ1 \
 in2=$INPUT_FASTQ2 \
-out=<> \
-out2=<> \
+out=$OUTPUT_FASTQ1 \
+out2=$OUTPUT_FASTQ2 \
 groups=auto \
 dedupe=t \
 optical=t \
 dupedist=40 \
 spany=t \
-adjacent=t \
+adjacent=t
 

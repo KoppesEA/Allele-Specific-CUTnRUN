@@ -1,0 +1,22 @@
+[2024-04-29 23:47:09,388] multiqc                                            [DEBUG  ]  This is MultiQC v1.19
+[2024-04-29 23:47:09,430] multiqc                                            [DEBUG  ]  Command used: /ihome/crc/install/multiqc/1.19/python3.10/bin/multiqc --filename CnR_allele_posttrim_multiQC ./
+[2024-04-29 23:47:11,344] multiqc                                            [WARNING]  MultiQC Version v1.21 now available!
+[2024-04-29 23:47:11,344] multiqc                                            [DEBUG  ]  Working dir : /ix1/mmann/KoppesEA/Nup107_CR_02262024/trimfastq
+[2024-04-29 23:47:11,344] multiqc                                            [DEBUG  ]  Template    : default
+[2024-04-29 23:47:11,344] multiqc                                            [DEBUG  ]  Running Python 3.10.13 | packaged by conda-forge | (main, Dec 23 2023, 15:36:39) [GCC 12.3.0]
+[2024-04-29 23:47:11,344] multiqc                                            [DEBUG  ]  Analysing modules: custom_content, ccs, ngsderive, purple, conpair, lima, peddy, somalier, methylQA, mosdepth, phantompeakqualtools, qualimap, preseq, hifiasm, quast, qorts, rna_seqc, rockhopper, rsem, rseqc, busco, bustools, goleft_indexcov, gffcompare, disambiguate, supernova, deeptools, sargasso, verifybamid, mirtrace, happy, mirtop, sambamba, gopeaks, homer, hops, macs2, theta2, snpeff, gatk, htseq, bcftools, featureCounts, fgbio, dragen, dragen_fastqc, dedup, pbmarkdup, damageprofiler, mapdamage, biobambam2, jcvi, mtnucratio, picard, vep, bakta, prokka, qc3C, nanostat, samblaster, samtools, sexdeterrmine, seqera_cli, eigenstratdatabasetools, bamtools, jellyfish, vcftools, longranger, stacks, varscan2, snippy, umitools, truvari, bbmap, bismark, biscuit, diamond, hicexplorer, hicup, hicpro, salmon, kallisto, slamdunk, star, hisat2, tophat, bowtie2, bowtie1, cellranger, snpsplit, odgi, pangolin, nextclade, freyja, humid, kat, leehom, librarian, adapterRemoval, bbduk, clipandmerge, cutadapt, flexbar, sourmash, kaiju, bracken, kraken, malt, motus, trimmomatic, sickle, skewer, sortmerna, biobloomtools, fastq_screen, afterqc, fastp, fastqc, filtlong, prinseqplusplus, pychopper, porechop, pycoqc, minionqc, anglerfish, multivcfanalyzer, clusterflow, checkqc, bcl2fastq, bclconvert, interop, ivar, flash, seqyclean, optitype, whatshap, xenome, xengsort
+[2024-04-29 23:47:11,345] multiqc                                            [DEBUG  ]  Using temporary directory for creating report: /scratch/slurm-3153780/tmp66m2n84v
+[2024-04-29 23:47:11,505] multiqc                                            [INFO   ]  Search path : /ix1/mmann/KoppesEA/Nup107_CR_02262024/trimfastq
+[2024-04-29 23:47:13,442] multiqc                                            [DEBUG  ]  Summary of files that were skipped by the search: [skipped_module_specific_max_filesize: 286] // [skipped_no_match: 52] // [skipped_ignore_pattern: 26]
+[2024-04-29 23:47:19,548] multiqc.plots.bargraph                             [DEBUG  ]  Using matplotlib version 3.8.2
+[2024-04-29 23:47:19,588] multiqc.plots.linegraph                            [DEBUG  ]  Using matplotlib version 3.8.2
+[2024-04-29 23:47:19,619] multiqc                                            [DEBUG  ]  No samples found: custom_content
+[2024-04-29 23:47:19,893] multiqc.modules.cutadapt.cutadapt                  [INFO   ]  Found 26 reports
+[2024-04-29 23:47:20,944] multiqc.modules.fastqc.fastqc                      [INFO   ]  Found 26 reports
+[2024-04-29 23:47:21,137] multiqc.utils.software_versions                    [DEBUG  ]  Reading software versions from config.software_versions
+[2024-04-29 23:47:21,192] multiqc                                            [DEBUG  ]  Compressing plot data
+[2024-04-29 23:47:21,648] multiqc                                            [INFO   ]  Report      : CnR_allele_posttrim_multiQC.html
+[2024-04-29 23:47:21,648] multiqc                                            [INFO   ]  Data        : CnR_allele_posttrim_multiQC_data
+[2024-04-29 23:47:21,648] multiqc                                            [DEBUG  ]  Moving data file from '/scratch/slurm-3153780/tmp66m2n84v/multiqc_data' to '/ix1/mmann/KoppesEA/Nup107_CR_02262024/trimfastq/CnR_allele_posttrim_multiQC_data'
+[2024-04-29 23:47:21,703] multiqc                                            [DEBUG  ]  Full report path: /ix1/mmann/KoppesEA/Nup107_CR_02262024/trimfastq/CnR_allele_posttrim_multiQC.html
+[2024-04-29 23:47:22,803] multiqc                                            [INFO   ]  MultiQC complete

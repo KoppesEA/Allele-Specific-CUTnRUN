@@ -9,7 +9,7 @@ and fastqc implementation using CnR_allelespec_fastqc.sh
 
 1B. Use multiQC to collate final
 module load multiqc/1.19
-multiqc --filename "CnR_allele_pretrim_multiQC" 
+multiqc --filename "CnR_allele_pretrim_multiQC" ./
 
 # 3/22/2024
 2A. setup trimgalore with post-trim fastqc
@@ -53,7 +53,7 @@ For dedup pipeline
 --Optical/PCR duplicates mark/filter in picard from bam [can mark optical tag separately]
 --Optical/PCR duplicates mark/filter in samtools from bam
 --Can use macs2 default dup option to remove both optical/pcr dup
---BBmap clumpify.sh
+--BBmap clumpify.sh to remove optical duplicates from fastq; specifically for nextseq
 
 
 combine histone replicates fastq with direct concatenation
@@ -73,3 +73,25 @@ Need Summary Table and script to automate read calls mapping etc for each sample
  multiQC for trimmed reads
  
  broadPeak analysis with combined IgG...
+ 
+## 4/24/24
+# VH01587 Instrument ID = NextSeq
+ @htc-n29 rawfastq]$ zcat BCS1_1.fastq.gz | head
+@VH01587:104:AAFKGHTM5:1:1101:18231:1000 1:N:0:CGCTCCTT+AGGCTATA
+GATGTGGAGAAAGAGGAACACTCCTCCACTGTTTGTGGGATTGCAAGCTTGTACAACTAC
++
+CCCCCCCCC;CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+@VH01587:104:AAFKGHTM5:1:1101:19746:1000 1:N:0:CGCTCCTT+AGGCTATA
+CTGACAAAGACAAATGGTAGCAAGATGGACTTCCAAAACCACTGGCCTCATATAGGTGCA
++
+CCCCCCC-CCCCCCCCCCCCCCCC;CCCCCCCCCCCCCCCCCCCCCCCCCC-CCCCCC;C
+@VH01587:104:AAFKGHTM5:1:1101:19973:1000 1:N:0:CGCTCCTT+AGGCTATA
+TCCATCTTTTTCAGTTTTCCTCGCCATATTTCACGTCCTAAAGTGTGTATTTCTCATTTT
+
+Setup BBMap clustify dedupe script
+
+run multifq on trimmomatic reads:
+pwd
+/ix1/mmann/KoppesEA/Nup107_CR_02262024/trimfastq
+module load multiqc/1.19
+multiqc --filename "CnR_allele_posttrim_multiQC" ./
