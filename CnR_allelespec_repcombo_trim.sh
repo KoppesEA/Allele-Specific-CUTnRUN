@@ -9,8 +9,8 @@
 #SBATCH --array=0-12 #13 samples
 
 #set path Fastq directories and output directories
-DIRfq=./fastq_clumpify_dedup
-DIRtrim=./trimfastq_dedup
+DIRfq=./fastq_repcombo
+DIRtrim=./trimfastq_repcombo
 
 #make output directory
 mkdir $DIRtrim
@@ -18,14 +18,15 @@ mkdir $DIRtrim
 #Load trimgalore v0.6.5
 module load trimgalore/0.6.5
 
-#Extract fq sample names from list text file
-names=($(cat CnR_MannLab_fqlist_02262024.txt))
+#Extract fq sample names from list of 4 repeated IPs
+names=($(printf "IgG\nCTCF\nH3K4me3\nH3K27me3"))
 echo ${names[${SLURM_ARRAY_TASK_ID}]}
 
 fqname=${names[${SLURM_ARRAY_TASK_ID}]}
-INPUT_FASTQ1=$DIRfq/${fqname}_optdedupe_1.fastq.gz
-INPUT_FASTQ2=$DIRfq/${fqname}_optdedupe_2.fastq.gz
-echo "performing quality and adapter trimming for paired-end reads:"
+INPUT_FASTQ1=BCS_repmerge_${fqname}_1.fastq.gz
+INPUT_FASTQ2=BCS_repmerge_${fqname}_2.fastq.gz
+
+echo "performing quality and adapter trimming for paired-end read on merged replicate R1 and R2:"
 echo $INPUT_FASTQ1
 echo $INPUT_FASTQ2
 

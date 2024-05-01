@@ -1,0 +1,4 @@
+IgG
+CTCF
+H3K4me3
+H3K27me3
