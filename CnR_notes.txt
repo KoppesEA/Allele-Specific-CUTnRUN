@@ -74,7 +74,7 @@ Need Summary Table and script to automate read calls mapping etc for each sample
  
  broadPeak analysis with combined IgG...
  
-## 4/24/24
+## 4/29/24
 # VH01587 Instrument ID = NextSeq
  @htc-n29 rawfastq]$ zcat BCS1_1.fastq.gz | head
 @VH01587:104:AAFKGHTM5:1:1101:18231:1000 1:N:0:CGCTCCTT+AGGCTATA
@@ -95,3 +95,148 @@ pwd
 /ix1/mmann/KoppesEA/Nup107_CR_02262024/trimfastq
 module load multiqc/1.19
 multiqc --filename "CnR_allele_posttrim_multiQC" ./
+
+#4/30/24
+Run fastqc on BBMap dedupe fastq; also check reports on avg ~10% of reads optical duplicates and removed
+module load multiqc/1.19
+pwd
+/ix1/mmann/KoppesEA/Nup107_CR_02262024/trimfastq_opticalremoved
+multiqc --filename "CnR_allele_BBMapdedup_posttrim_multiQC" ./
+
+pwd
+/ix1/mmann/KoppesEA/Nup107_CR_02262024/fastq_opticalremoved/FastQC
+multiqc --filename "CnR_allele_BBMapdedup_prettrim_multiQC" ./
+
+afterchecking the multiQC .html output it seemed that the pre-trim _2 had more dups than _1 but same # reads
+with the pre trim having 6%/13% for r1/r2  which reduced to 6/9 with trimming
+
+Clumpify for BCS1 (top is without the unpair/repair options and bot is with )
+Reads In:             16058814
+Clumps Formed:         8294931
+Duplicates Found:      2001887
+Reads Out:            14056927
+Bases Out:           843415620
+
+Reads In:             16058814
+Clumps Formed:         4655914
+Duplicates Found:      2126154
+Reads Out:            13932660
+Bases Out:           835959600
+Total time:     296.277 seconds.
+
+ticket to CRC
+Could BBMap be updated from 38.51 () to 39.06 (current). Not sure if its issue with my script though.
+Trying to remove optical duplicates from fastq NGS data, script works but then the resulting paired end fq_1 and fq_2 are uneven in read counts and # duplicates removed. Supposedly running in paired-end mode but removal seems only in read1 as observed in fastqc results, somewhat corrects after discarding unmatched pairs during trimmomatic primer trim (could also us bbduk). Running again with added unpair=t repair=t options to interleave r1 and r2 and then separate
+
+Thanks,
+EK
+
+[eak37@htc-n50 MACS]$ wc -l ./*nodups*/*narrowPeak
+    1272 ./snpsplt_narrowpeaks_nodups_IgG1/BCS1_B6_nodupsnarrowIgG1con_peaks.narrowPeak
+    1494 ./snpsplt_narrowpeaks_nodups_IgG1/BCS1_CAST_nodupsnarrowIgG1con_peaks.narrowPeak
+    4342 ./snpsplt_narrowpeaks_nodups_IgG1/BCS2_B6_nodupsnarrowIgG1con_peaks.narrowPeak
+    4783 ./snpsplt_narrowpeaks_nodups_IgG1/BCS2_CAST_nodupsnarrowIgG1con_peaks.narrowPeak
+   25805 ./snpsplt_narrowpeaks_nodups_IgG1/BCS3_B6_nodupsnarrowIgG1con_peaks.narrowPeak
+   26435 ./snpsplt_narrowpeaks_nodups_IgG1/BCS3_CAST_nodupsnarrowIgG1con_peaks.narrowPeak
+   27461 ./snpsplt_narrowpeaks_nodups_IgG1/BCS4_B6_nodupsnarrowIgG1con_peaks.narrowPeak
+   28406 ./snpsplt_narrowpeaks_nodups_IgG1/BCS4_CAST_nodupsnarrowIgG1con_peaks.narrowPeak
+     202 ./snpsplt_narrowpeaks_nodups_IgG1/BCS5_B6_nodupsnarrowIgG1con_peaks.narrowPeak
+     287 ./snpsplt_narrowpeaks_nodups_IgG1/BCS5_CAST_nodupsnarrowIgG1con_peaks.narrowPeak
+     183 ./snpsplt_narrowpeaks_nodups_IgG1/BCS6_B6_nodupsnarrowIgG1con_peaks.narrowPeak
+     283 ./snpsplt_narrowpeaks_nodups_IgG1/BCS6_CAST_nodupsnarrowIgG1con_peaks.narrowPeak
+       0 ./snpsplt_narrowpeaks_nodups_IgG1/BCS7_B6_nodupsnarrowIgG1con_peaks.narrowPeak
+       4 ./snpsplt_narrowpeaks_nodups_IgG1/BCS7_CAST_nodupsnarrowIgG1con_peaks.narrowPeak
+       0 ./snpsplt_narrowpeaks_nodups_IgG1/BCSA_B6_nodupsnarrowIgG1con_peaks.narrowPeak
+       5 ./snpsplt_narrowpeaks_nodups_IgG1/BCSA_CAST_nodupsnarrowIgG1con_peaks.narrowPeak
+       0 ./snpsplt_narrowpeaks_nodups_IgG1/BCSB_B6_nodupsnarrowIgG1con_peaks.narrowPeak
+       9 ./snpsplt_narrowpeaks_nodups_IgG1/BCSB_CAST_nodupsnarrowIgG1con_peaks.narrowPeak
+       0 ./snpsplt_narrowpeaks_nodups_IgG1/BCSC_B6_nodupsnarrowIgG1con_peaks.narrowPeak
+      16 ./snpsplt_narrowpeaks_nodups_IgG1/BCSC_CAST_nodupsnarrowIgG1con_peaks.narrowPeak
+       5 ./snpsplt_narrowpeaks_nodups_IgG1/BCSD_B6_nodupsnarrowIgG1con_peaks.narrowPeak
+      47 ./snpsplt_narrowpeaks_nodups_IgG1/BCSD_CAST_nodupsnarrowIgG1con_peaks.narrowPeak
+    6064 ./snpsplt_narrowpeaks_nodups_IgG1/BCSE_B6_nodupsnarrowIgG1con_peaks.narrowPeak
+    6408 ./snpsplt_narrowpeaks_nodups_IgG1/BCSE_CAST_nodupsnarrowIgG1con_peaks.narrowPeak
+       1 ./snpsplt_narrowpeaks_nodups_IgG1/BCSF_B6_nodupsnarrowIgG1con_peaks.narrowPeak
+      32 ./snpsplt_narrowpeaks_nodups_IgG1/BCSF_CAST_nodupsnarrowIgG1con_peaks.narrowPeak
+     969 ./snpsplt_narrowpeaks_nodups_IgG2/BCS1_B6_nodupsnarrowIgG2con_peaks.narrowPeak
+    1074 ./snpsplt_narrowpeaks_nodups_IgG2/BCS1_CAST_nodupsnarrowIgG2con_peaks.narrowPeak
+    4410 ./snpsplt_narrowpeaks_nodups_IgG2/BCS2_B6_nodupsnarrowIgG2con_peaks.narrowPeak
+    4742 ./snpsplt_narrowpeaks_nodups_IgG2/BCS2_CAST_nodupsnarrowIgG2con_peaks.narrowPeak
+   24278 ./snpsplt_narrowpeaks_nodups_IgG2/BCS3_B6_nodupsnarrowIgG2con_peaks.narrowPeak
+   25009 ./snpsplt_narrowpeaks_nodups_IgG2/BCS3_CAST_nodupsnarrowIgG2con_peaks.narrowPeak
+   26081 ./snpsplt_narrowpeaks_nodups_IgG2/BCS4_B6_nodupsnarrowIgG2con_peaks.narrowPeak
+   26818 ./snpsplt_narrowpeaks_nodups_IgG2/BCS4_CAST_nodupsnarrowIgG2con_peaks.narrowPeak
+     198 ./snpsplt_narrowpeaks_nodups_IgG2/BCS5_B6_nodupsnarrowIgG2con_peaks.narrowPeak
+     225 ./snpsplt_narrowpeaks_nodups_IgG2/BCS5_CAST_nodupsnarrowIgG2con_peaks.narrowPeak
+     151 ./snpsplt_narrowpeaks_nodups_IgG2/BCS6_B6_nodupsnarrowIgG2con_peaks.narrowPeak
+     235 ./snpsplt_narrowpeaks_nodups_IgG2/BCS6_CAST_nodupsnarrowIgG2con_peaks.narrowPeak
+       1 ./snpsplt_narrowpeaks_nodups_IgG2/BCS7_B6_nodupsnarrowIgG2con_peaks.narrowPeak
+       7 ./snpsplt_narrowpeaks_nodups_IgG2/BCS7_CAST_nodupsnarrowIgG2con_peaks.narrowPeak
+       0 ./snpsplt_narrowpeaks_nodups_IgG2/BCSA_B6_nodupsnarrowIgG2con_peaks.narrowPeak
+       4 ./snpsplt_narrowpeaks_nodups_IgG2/BCSA_CAST_nodupsnarrowIgG2con_peaks.narrowPeak
+       0 ./snpsplt_narrowpeaks_nodups_IgG2/BCSB_B6_nodupsnarrowIgG2con_peaks.narrowPeak
+       8 ./snpsplt_narrowpeaks_nodups_IgG2/BCSB_CAST_nodupsnarrowIgG2con_peaks.narrowPeak
+       1 ./snpsplt_narrowpeaks_nodups_IgG2/BCSC_B6_nodupsnarrowIgG2con_peaks.narrowPeak
+      15 ./snpsplt_narrowpeaks_nodups_IgG2/BCSC_CAST_nodupsnarrowIgG2con_peaks.narrowPeak
+       5 ./snpsplt_narrowpeaks_nodups_IgG2/BCSD_B6_nodupsnarrowIgG2con_peaks.narrowPeak
+      14 ./snpsplt_narrowpeaks_nodups_IgG2/BCSD_CAST_nodupsnarrowIgG2con_peaks.narrowPeak
+    4991 ./snpsplt_narrowpeaks_nodups_IgG2/BCSE_B6_nodupsnarrowIgG2con_peaks.narrowPeak
+    5298 ./snpsplt_narrowpeaks_nodups_IgG2/BCSE_CAST_nodupsnarrowIgG2con_peaks.narrowPeak
+       0 ./snpsplt_narrowpeaks_nodups_IgG2/BCSF_B6_nodupsnarrowIgG2con_peaks.narrowPeak
+       6 ./snpsplt_narrowpeaks_nodups_IgG2/BCSF_CAST_nodupsnarrowIgG2con_peaks.narrowPeak
+  258084 total
+[eak37@htc-n50 MACS]$ wc -l ./*nodups*/*broadPeak
+    2055 ./snpsplt_broadpeaks_nodups_IgG1/BCS1_B6_nodupsbroadIgG1con_peaks.broadPeak
+    2256 ./snpsplt_broadpeaks_nodups_IgG1/BCS1_CAST_nodupsbroadIgG1con_peaks.broadPeak
+   17431 ./snpsplt_broadpeaks_nodups_IgG1/BCS2_B6_nodupsbroadIgG1con_peaks.broadPeak
+   18294 ./snpsplt_broadpeaks_nodups_IgG1/BCS2_CAST_nodupsbroadIgG1con_peaks.broadPeak
+   32784 ./snpsplt_broadpeaks_nodups_IgG1/BCS3_B6_nodupsbroadIgG1con_peaks.broadPeak
+   34036 ./snpsplt_broadpeaks_nodups_IgG1/BCS3_CAST_nodupsbroadIgG1con_peaks.broadPeak
+   34501 ./snpsplt_broadpeaks_nodups_IgG1/BCS4_B6_nodupsbroadIgG1con_peaks.broadPeak
+   35542 ./snpsplt_broadpeaks_nodups_IgG1/BCS4_CAST_nodupsbroadIgG1con_peaks.broadPeak
+    2107 ./snpsplt_broadpeaks_nodups_IgG1/BCS5_B6_nodupsbroadIgG1con_peaks.broadPeak
+    2430 ./snpsplt_broadpeaks_nodups_IgG1/BCS5_CAST_nodupsbroadIgG1con_peaks.broadPeak
+    1975 ./snpsplt_broadpeaks_nodups_IgG1/BCS6_B6_nodupsbroadIgG1con_peaks.broadPeak
+    2298 ./snpsplt_broadpeaks_nodups_IgG1/BCS6_CAST_nodupsbroadIgG1con_peaks.broadPeak
+       0 ./snpsplt_broadpeaks_nodups_IgG1/BCS7_B6_nodupsbroadIgG1con_peaks.broadPeak
+       4 ./snpsplt_broadpeaks_nodups_IgG1/BCS7_CAST_nodupsbroadIgG1con_peaks.broadPeak
+       0 ./snpsplt_broadpeaks_nodups_IgG1/BCSA_B6_nodupsbroadIgG1con_peaks.broadPeak
+       7 ./snpsplt_broadpeaks_nodups_IgG1/BCSA_CAST_nodupsbroadIgG1con_peaks.broadPeak
+       0 ./snpsplt_broadpeaks_nodups_IgG1/BCSB_B6_nodupsbroadIgG1con_peaks.broadPeak
+      15 ./snpsplt_broadpeaks_nodups_IgG1/BCSB_CAST_nodupsbroadIgG1con_peaks.broadPeak
+       0 ./snpsplt_broadpeaks_nodups_IgG1/BCSC_B6_nodupsbroadIgG1con_peaks.broadPeak
+      47 ./snpsplt_broadpeaks_nodups_IgG1/BCSC_CAST_nodupsbroadIgG1con_peaks.broadPeak
+      14 ./snpsplt_broadpeaks_nodups_IgG1/BCSD_B6_nodupsbroadIgG1con_peaks.broadPeak
+     476 ./snpsplt_broadpeaks_nodups_IgG1/BCSD_CAST_nodupsbroadIgG1con_peaks.broadPeak
+    6442 ./snpsplt_broadpeaks_nodups_IgG1/BCSE_B6_nodupsbroadIgG1con_peaks.broadPeak
+    6949 ./snpsplt_broadpeaks_nodups_IgG1/BCSE_CAST_nodupsbroadIgG1con_peaks.broadPeak
+       1 ./snpsplt_broadpeaks_nodups_IgG1/BCSF_B6_nodupsbroadIgG1con_peaks.broadPeak
+      43 ./snpsplt_broadpeaks_nodups_IgG1/BCSF_CAST_nodupsbroadIgG1con_peaks.broadPeak
+    1748 ./snpsplt_broadpeaks_nodups_IgG2/BCS1_B6_nodupsbroadIgG2con_peaks.broadPeak
+    1880 ./snpsplt_broadpeaks_nodups_IgG2/BCS1_CAST_nodupsbroadIgG2con_peaks.broadPeak
+   17776 ./snpsplt_broadpeaks_nodups_IgG2/BCS2_B6_nodupsbroadIgG2con_peaks.broadPeak
+   18649 ./snpsplt_broadpeaks_nodups_IgG2/BCS2_CAST_nodupsbroadIgG2con_peaks.broadPeak
+   30497 ./snpsplt_broadpeaks_nodups_IgG2/BCS3_B6_nodupsbroadIgG2con_peaks.broadPeak
+   31534 ./snpsplt_broadpeaks_nodups_IgG2/BCS3_CAST_nodupsbroadIgG2con_peaks.broadPeak
+   32150 ./snpsplt_broadpeaks_nodups_IgG2/BCS4_B6_nodupsbroadIgG2con_peaks.broadPeak
+   33124 ./snpsplt_broadpeaks_nodups_IgG2/BCS4_CAST_nodupsbroadIgG2con_peaks.broadPeak
+    2008 ./snpsplt_broadpeaks_nodups_IgG2/BCS5_B6_nodupsbroadIgG2con_peaks.broadPeak
+    2263 ./snpsplt_broadpeaks_nodups_IgG2/BCS5_CAST_nodupsbroadIgG2con_peaks.broadPeak
+    1848 ./snpsplt_broadpeaks_nodups_IgG2/BCS6_B6_nodupsbroadIgG2con_peaks.broadPeak
+    2123 ./snpsplt_broadpeaks_nodups_IgG2/BCS6_CAST_nodupsbroadIgG2con_peaks.broadPeak
+       1 ./snpsplt_broadpeaks_nodups_IgG2/BCS7_B6_nodupsbroadIgG2con_peaks.broadPeak
+       7 ./snpsplt_broadpeaks_nodups_IgG2/BCS7_CAST_nodupsbroadIgG2con_peaks.broadPeak
+       0 ./snpsplt_broadpeaks_nodups_IgG2/BCSA_B6_nodupsbroadIgG2con_peaks.broadPeak
+       6 ./snpsplt_broadpeaks_nodups_IgG2/BCSA_CAST_nodupsbroadIgG2con_peaks.broadPeak
+       0 ./snpsplt_broadpeaks_nodups_IgG2/BCSB_B6_nodupsbroadIgG2con_peaks.broadPeak
+      11 ./snpsplt_broadpeaks_nodups_IgG2/BCSB_CAST_nodupsbroadIgG2con_peaks.broadPeak
+       3 ./snpsplt_broadpeaks_nodups_IgG2/BCSC_B6_nodupsbroadIgG2con_peaks.broadPeak
+      24 ./snpsplt_broadpeaks_nodups_IgG2/BCSC_CAST_nodupsbroadIgG2con_peaks.broadPeak
+       9 ./snpsplt_broadpeaks_nodups_IgG2/BCSD_B6_nodupsbroadIgG2con_peaks.broadPeak
+      39 ./snpsplt_broadpeaks_nodups_IgG2/BCSD_CAST_nodupsbroadIgG2con_peaks.broadPeak
+    5951 ./snpsplt_broadpeaks_nodups_IgG2/BCSE_B6_nodupsbroadIgG2con_peaks.broadPeak
+    6280 ./snpsplt_broadpeaks_nodups_IgG2/BCSE_CAST_nodupsbroadIgG2con_peaks.broadPeak
+       0 ./snpsplt_broadpeaks_nodups_IgG2/BCSF_B6_nodupsbroadIgG2con_peaks.broadPeak
+       7 ./snpsplt_broadpeaks_nodups_IgG2/BCSF_CAST_nodupsbroadIgG2con_peaks.broadPeak
+       
+       Need to fix MACS2 script for IgG 1 as using names[6] when should be names[5] for IgG1 sample

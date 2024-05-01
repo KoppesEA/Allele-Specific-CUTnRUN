@@ -9,7 +9,7 @@
 #SBATCH --array=0-12 #13 samples
 
 #set path Fastq directories and output directories
-DIRfq=./fastq_opticalremoved
+DIRfq=./fastq_clumpify_dedup
 DIRfqQC=$DIRfq/FastQC
 
 #make output directory
