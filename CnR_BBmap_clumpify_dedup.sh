@@ -10,7 +10,7 @@
 
 #set path Fastq directories and output directories
 DIRfq=./rawfastq
-DIRdedup=./fastq_opticalremoved
+DIRdedup=./fastq_clumpify_dedup
 
 #make output directory
 mkdir $DIRdedup
@@ -39,9 +39,9 @@ echo $OUTPUT_FASTQ2
 # CnR sequencing on NextSeq at Pitt Core
 
 clumpify.sh \
-in=$INPUT_FASTQ1 \
+in1=$INPUT_FASTQ1 \
 in2=$INPUT_FASTQ2 \
-out=$OUTPUT_FASTQ1 \
+out1=$OUTPUT_FASTQ1 \
 out2=$OUTPUT_FASTQ2 \
 groups=auto \
 dedupe=t \
@@ -49,4 +49,3 @@ optical=t \
 dupedist=40 \
 spany=t \
 adjacent=t
-
