@@ -7,12 +7,12 @@
 The following commands were run to download the GRCm39 genomes and then to generate Castenous (Cast_EiJ) strain-specific genomes. While this largely followed the snpsplit genome gen guide (see references) there were some specific issues getting the backdated GRCm38 to work. This was run July 26th 2023 on the PITT HTC.
 
 ### Obtain GRCm39 genome
-`wget -c -O Mus_musculus.GRCm38.68.dna.toplevel.fa.gz ftp://ftp.ensembl.org/pub/release-68/fasta/mus_musculus/dna/Mus_musculus.GRCm38.68.dna.toplevel.fa.gz`
+`wget -O Mus_musculus.GRCm39.dna.toplevel.fa.gz https://ftp.ensembl.org/pub/release-109/fasta/mus_musculus/dna/Mus_musculus.GRCm39.dna.toplevel.fa.gz &`
 
 ### Obtain m39 strain specific SNPs in VCF format
 `wget -O mgp.v5.merged.snps_all.dbSNP142.vcf.gz https://ftp.ebi.ac.uk/pub/databases/mousegenomes/REL-1505-SNPs_Indels/mgp.v5.merged.snps_all.dbSNP142.vcf.gz &`
 
-### Run SNPsplit_genome_preparation using SLURM
+### Run SNPsplit_genome_preparation
 Run the Bash scripts `CastEiJ_snpsplit_genomegen_GRCm39.bash` including output for strain-specific genome
 
 ### Combine chr.txt variant files for CAST
