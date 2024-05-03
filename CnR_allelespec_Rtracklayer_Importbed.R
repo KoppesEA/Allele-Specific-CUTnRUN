@@ -1,8 +1,7 @@
-## Rscript to import .bedgraph files and compare Heiner et al C&R with new BSC data
-## C&R nf-core pipe Seacr peakcalling outputs a bedgraph like file
-## https://github.com/FredHutch/SEACR
-## Erik Koppes 2/8/2024
-
+##  Rscript ChIP-Peak analysis for Nup107 peaks
+##  rtracklayer import and venn diagram parental specific peaks across 2 replicates
+##  Erik Koppes
+##  May 2 2024
 
 # Load Dependencies 
 library(rtracklayer) #[also loads GR, IR and GenomeInfoDb]
@@ -10,6 +9,7 @@ library(stringr)
 library(ChIPpeakAnno) # for EZ Venndigrams
 library(ChIPQC)
 BiocManager::install("ChIPQC")
+
 ## Sample MetaData
 BCS_meta<- data.frame(
   Sample_ID = c(paste0("BCS", LETTERS[1:6]), paste0("BCS", seq(1:7))),
@@ -19,6 +19,8 @@ BCS_meta<- data.frame(
 
 MACSbroadpeakIgG1 <- "./MACS/snpsplt_broadpeaks_wdups_IgG1/"
 MACSbroadpeakIgG2 <- "./MACS/snpsplt_broadpeaks_wdups_IgG2/"
+MACSnarrowpeakIgG1 <- "./MACS/snpsplt_narrowpeaks_wdups_IgG1/"
+MACSnarrowpeakIgG2 <- "./MACS/snpsplt_narrowpeaks_wdups_IgG2/"
 
 # Automated broadPeaks import for BCS allele-specific peaks: Broad-peak-IgG1
 for (bedFile in list.files(MACSbroadpeakIgG1, pattern = ".broadPeak")) {
@@ -54,10 +56,12 @@ for (bedFile in list.files(MACSnarrowpeakIgG2, pattern = ".narrowPeak")) {
 
 ## Examine mat/pat CTCF overlap for rep1 and rep2
 peak_overlap_CTCF_rep1 <- findOverlaps(BCS1_B6_wdupsbroadIgG1con_peaks.GR, BCS1_CAST_wdupsbroadIgG1con_peaks.GR)
+peak_overlap_CTCF_rep1
+test <- findOverlapsOfPeaks(BCS1_B6_wdupsbroadIgG1con_peaks.GR, BCS1_CAST_wdupsbroadIgG1con_peaks.GR,BCS2_B6_wdupsbroadIgG1con_peaks.GR, BCS2_CAST_wdupsbroadIgG1con_peaks.GR) 
 
 ## Use makeVennDiagram Function from ChipPeakAnno to generate Venn Diagram 
 
-## Should use narrowPeak and IgG2 for CTCF and H3K4me3
+## Should use narrowPeak CTCF and H3K4me3; broadPeak for H3K27me3; IgG2 norm for all
 # Venndiagram of CTCF BCS rep1 and 2 B6(mat) and CAST(pat)
 makeVennDiagram(list(BCS1_B6_wdupsbroadIgG1con_peaks.GR, BCS1_CAST_wdupsbroadIgG1con_peaks.GR,BCS2_B6_wdupsbroadIgG1con_peaks.GR, BCS2_CAST_wdupsbroadIgG1con_peaks.GR),
                 NameOfPeaks=c("CTCF_rep1_B6", "CTCF_rep1_CAST", "CTCF_rep2_B6", "CTCF_rep2_CAST"),
@@ -65,10 +69,21 @@ makeVennDiagram(list(BCS1_B6_wdupsbroadIgG1con_peaks.GR, BCS1_CAST_wdupsbroadIgG
                 fill=c("#FFBAD2", "#66CCFF", "#F48FB1","#0099CC"), # circle fill color
                 col=c("#F20056", "#003399","#F20056", "#003399"), #circle border color
                 cat.col=c("#FFBAD2", "#66CCFF", "#F48FB1", "#0099CC"))
-
+makeVennDiagram(list(BCS1_B6_wdupsnarrowIgG2con_peaks.GR, BCS1_CAST_wdupsnarrowIgG2con_peaks.GR,BCS2_B6_wdupsnarrowIgG2con_peaks.GR, BCS2_CAST_wdupsnarrowIgG2con_peaks.GR),
+                NameOfPeaks=c("CTCF_rep1_B6", "CTCF_rep1_CAST", "CTCF_rep2_B6", "CTCF_rep2_CAST"),
+                totalTest=181125,scaled=FALSE, euler.d=FALSE,  ## set totalTest= total of 2 reps; tested with 250k then calc
+                fill=c("#FFBAD2", "#66CCFF", "#F48FB1","#0099CC"), # circle fill color
+                col=c("#F20056", "#003399","#F20056", "#003399"), #circle border color
+                cat.col=c("#FFBAD2", "#66CCFF", "#F48FB1", "#0099CC"))
 
 # Venndiagram of H3K4me3 BCS rep1 and 2 B6(mat) and CAST(pat)
 makeVennDiagram(list(BCS3_B6_wdupsbroadIgG1con_peaks.GR, BCS3_CAST_wdupsbroadIgG1con_peaks.GR,BCS4_B6_wdupsbroadIgG1con_peaks.GR, BCS4_CAST_wdupsbroadIgG1con_peaks.GR),
+                NameOfPeaks=c("H3K4me3_rep1_B6", "H3K4me3_rep1_CAST", "H3K4me3_rep2_B6", "H3K4me3_rep2_CAST"),
+                totalTest=102832,scaled=FALSE, euler.d=FALSE,  ## set totalTest= total of 2 reps; tested with 250k then calc
+                fill=c("#FFBAD2", "#66CCFF", "#F48FB1","#0099CC"), # circle fill color
+                col=c("#F20056", "#003399","#F20056", "#003399"), #circle border color
+                cat.col=c("#FFBAD2", "#66CCFF", "#F48FB1", "#0099CC"))
+makeVennDiagram(list(BCS3_B6_wdupsnarrowIgG2con_peaks.GR, BCS3_CAST_wdupsnarrowIgG2con_peaks.GR,BCS4_B6_wdupsnarrowIgG2con_peaks.GR, BCS4_CAST_wdupsnarrowIgG2con_peaks.GR),
                 NameOfPeaks=c("H3K4me3_rep1_B6", "H3K4me3_rep1_CAST", "H3K4me3_rep2_B6", "H3K4me3_rep2_CAST"),
                 totalTest=102832,scaled=FALSE, euler.d=FALSE,  ## set totalTest= total of 2 reps; tested with 250k then calc
                 fill=c("#FFBAD2", "#66CCFF", "#F48FB1","#0099CC"), # circle fill color
@@ -82,12 +97,24 @@ makeVennDiagram(list(BCS5_B6_wdupsbroadIgG1con_peaks.GR, BCS5_CAST_wdupsbroadIgG
                 fill=c("#FFBAD2", "#66CCFF", "#F48FB1","#0099CC"), # circle fill color
                 col=c("#F20056", "#003399","#F20056", "#003399"), #circle border color
                 cat.col=c("#FFBAD2", "#66CCFF", "#F48FB1", "#0099CC"))
+makeVennDiagram(list(BCS5_B6_wdupsnarrowIgG2con_peaks.GR, BCS5_CAST_wdupsnarrowIgG2con_peaks.GR,BCS6_B6_wdupsnarrowIgG2con_peaks.GR, BCS6_CAST_wdupsnarrowIgG2con_peaks.GR),
+                NameOfPeaks=c("H3K27me3_rep1_B6", "H3K27me3_rep1_CAST", "H3K27me3_rep2_B6", "H3K27me3_rep2_CAST"),
+                totalTest=102832,scaled=FALSE, euler.d=FALSE,  ## set totalTest= total of 2 reps; tested with 250k then calc
+                fill=c("#FFBAD2", "#66CCFF", "#F48FB1","#0099CC"), # circle fill color
+                col=c("#F20056", "#003399","#F20056", "#003399"), #circle border color
+                cat.col=c("#FFBAD2", "#66CCFF", "#F48FB1", "#0099CC"))
 
 
-# Comparison of Nup107 antibodies
+# Comparison of Nup107 antibodies: use broadPeak only, IgG1 normalization
 # maximum levels for makeVenndiagram =5; so do 4 f-way comparisons
 # Venndiagram of Nup107 BCS _4 and _6 antibody B6(mat) and CAST(pat)
 makeVennDiagram(list(BCSA_B6_wdupsbroadIgG1con_peaks.GR, BCSA_CAST_wdupsbroadIgG1con_peaks.GR,BCSB_B6_wdupsbroadIgG1con_peaks.GR, BCSB_CAST_wdupsbroadIgG1con_peaks.GR),
+                NameOfPeaks=c("NUP107_4_B6", "NUP107_4_CAST", "NUP107_6_B6", "NUP107_6_CAST"),
+                totalTest=127919,scaled=FALSE, euler.d=FALSE,  ## set totalTest= total of 2 reps; tested with 250k then calc
+                fill=c("#FFBAD2", "#66CCFF", "#F48FB1","#0099CC"), # circle fill color
+                col=c("#F20056", "#003399","#F20056", "#003399"), #circle border color
+                cat.col=c("#FFBAD2", "#66CCFF", "#F48FB1", "#0099CC"))
+makeVennDiagram(list(BCSA_B6_wdupsnarrowIgG1con_peaks.GR, BCSA_CAST_wdupsnarrowIgG1con_peaks.GR,BCSB_B6_wdupsnarrowIgG1con_peaks.GR, BCSB_CAST_wdupsnarrowIgG1con_peaks.GR),
                 NameOfPeaks=c("NUP107_4_B6", "NUP107_4_CAST", "NUP107_6_B6", "NUP107_6_CAST"),
                 totalTest=127919,scaled=FALSE, euler.d=FALSE,  ## set totalTest= total of 2 reps; tested with 250k then calc
                 fill=c("#FFBAD2", "#66CCFF", "#F48FB1","#0099CC"), # circle fill color
@@ -101,9 +128,21 @@ makeVennDiagram(list(BCSA_B6_wdupsbroadIgG1con_peaks.GR, BCSA_CAST_wdupsbroadIgG
                 fill=c("#FFBAD2", "#66CCFF", "#F48FB1","#0099CC"), # circle fill color
                 col=c("#F20056", "#003399","#F20056", "#003399"), #circle border color
                 cat.col=c("#FFBAD2", "#66CCFF", "#F48FB1", "#0099CC"))
+makeVennDiagram(list(BCSA_B6_wdupsnarrowIgG1con_peaks.GR, BCSA_CAST_wdupsnarrowIgG1con_peaks.GR,BCSC_B6_wdupsnarrowIgG1con_peaks.GR, BCSC_CAST_wdupsnarrowIgG1con_peaks.GR),
+                NameOfPeaks=c("NUP107_4_B6", "NUP107_4_CAST", "NUP107_8_B6", "NUP107_8_CAST"),
+                totalTest=97933,scaled=FALSE, euler.d=FALSE,  ## set totalTest= total of 2 reps; tested with 250k then calc
+                fill=c("#FFBAD2", "#66CCFF", "#F48FB1","#0099CC"), # circle fill color
+                col=c("#F20056", "#003399","#F20056", "#003399"), #circle border color
+                cat.col=c("#FFBAD2", "#66CCFF", "#F48FB1", "#0099CC"))
 
 # Venndiagram of Nup107 BCS _4 and _10 antibody B6(mat) and CAST(pat)
 makeVennDiagram(list(BCSA_B6_wdupsbroadIgG1con_peaks.GR, BCSA_CAST_wdupsbroadIgG1con_peaks.GR,BCSD_B6_wdupsbroadIgG1con_peaks.GR, BCSD_CAST_wdupsbroadIgG1con_peaks.GR),
+                NameOfPeaks=c("NUP107_4_B6", "NUP107_4_CAST", "NUP107_10_B6", "NUP107_10_CAST"),
+                totalTest=102832,scaled=FALSE, euler.d=FALSE,  ## set totalTest= total of 2 reps; tested with 250k then calc
+                fill=c("#FFBAD2", "#66CCFF", "#F48FB1","#0099CC"), # circle fill color
+                col=c("#F20056", "#003399","#F20056", "#003399"), #circle border color
+                cat.col=c("#FFBAD2", "#66CCFF", "#F48FB1", "#0099CC"))
+makeVennDiagram(list(BCSA_B6_wdupsnarrowIgG1con_peaks.GR, BCSA_CAST_wdupsnarrowIgG1con_peaks.GR,BCSD_B6_wdupsnarrowIgG1con_peaks.GR, BCSD_CAST_wdupsnarrowIgG1con_peaks.GR),
                 NameOfPeaks=c("NUP107_4_B6", "NUP107_4_CAST", "NUP107_10_B6", "NUP107_10_CAST"),
                 totalTest=102832,scaled=FALSE, euler.d=FALSE,  ## set totalTest= total of 2 reps; tested with 250k then calc
                 fill=c("#FFBAD2", "#66CCFF", "#F48FB1","#0099CC"), # circle fill color
@@ -117,6 +156,12 @@ makeVennDiagram(list(BCSB_B6_wdupsbroadIgG1con_peaks.GR, BCSB_CAST_wdupsbroadIgG
                 fill=c("#FFBAD2", "#66CCFF", "#F48FB1","#0099CC"), # circle fill color
                 col=c("#F20056", "#003399","#F20056", "#003399"), #circle border color
                 cat.col=c("#FFBAD2", "#66CCFF", "#F48FB1", "#0099CC"))
+makeVennDiagram(list(BCSB_B6_wdupsnarrowIgG1con_peaks.GR, BCSB_CAST_wdupsnarrowIgG1con_peaks.GR,BCSC_B6_wdupsnarrowIgG1con_peaks.GR, BCSC_CAST_wdupsnarrowIgG1con_peaks.GR),
+                NameOfPeaks=c("NUP107_6_B6", "NUP107_6_CAST", "NUP107_8_B6", "NUP107_8_CAST"),
+                totalTest=67644,scaled=FALSE, euler.d=FALSE,  ## set totalTest= total of 2 reps; tested with 250k then calc
+                fill=c("#FFBAD2", "#66CCFF", "#F48FB1","#0099CC"), # circle fill color
+                col=c("#F20056", "#003399","#F20056", "#003399"), #circle border color
+                cat.col=c("#FFBAD2", "#66CCFF", "#F48FB1", "#0099CC"))
 
 # Venndiagram of Nup107 BCS _6 and _10 antibody B6(mat) and CAST(pat)
 makeVennDiagram(list(BCSB_B6_wdupsbroadIgG1con_peaks.GR, BCSB_CAST_wdupsbroadIgG1con_peaks.GR,BCSD_B6_wdupsbroadIgG1con_peaks.GR, BCSD_CAST_wdupsbroadIgG1con_peaks.GR),
@@ -125,9 +170,21 @@ makeVennDiagram(list(BCSB_B6_wdupsbroadIgG1con_peaks.GR, BCSB_CAST_wdupsbroadIgG
                 fill=c("#FFBAD2", "#66CCFF", "#F48FB1","#0099CC"), # circle fill color
                 col=c("#F20056", "#003399","#F20056", "#003399"), #circle border color
                 cat.col=c("#FFBAD2", "#66CCFF", "#F48FB1", "#0099CC"))
+makeVennDiagram(list(BCSB_B6_wdupsnarrowIgG1con_peaks.GR, BCSB_CAST_wdupsnarrowIgG1con_peaks.GR,BCSD_B6_wdupsnarrowIgG1con_peaks.GR, BCSD_CAST_wdupsnarrowIgG1con_peaks.GR),
+                NameOfPeaks=c("NUP107_6_B6", "NUP107_6_CAST", "NUP107_10_B6", "NUP107_10_CAST"),
+                totalTest=64914,scaled=FALSE, euler.d=FALSE,  ## set totalTest= total of 2 reps; tested with 250k then calc
+                fill=c("#FFBAD2", "#66CCFF", "#F48FB1","#0099CC"), # circle fill color
+                col=c("#F20056", "#003399","#F20056", "#003399"), #circle border color
+                cat.col=c("#FFBAD2", "#66CCFF", "#F48FB1", "#0099CC"))
 
 # Venndiagram of Nup107 BCS _8 and _10 antibody B6(mat) and CAST(pat)
 makeVennDiagram(list(BCSC_B6_wdupsbroadIgG1con_peaks.GR, BCSC_CAST_wdupsbroadIgG1con_peaks.GR,BCSD_B6_wdupsbroadIgG1con_peaks.GR, BCSD_CAST_wdupsbroadIgG1con_peaks.GR),
+                NameOfPeaks=c("NUP107_8_B6", "NUP107_8_CAST", "NUP107_10_B6", "NUP107_10_CAST"),
+                totalTest=64914,scaled=FALSE, euler.d=FALSE,  ## set totalTest= total of 2 reps; tested with 250k then calc
+                fill=c("#FFBAD2", "#66CCFF", "#F48FB1","#0099CC"), # circle fill color
+                col=c("#F20056", "#003399","#F20056", "#003399"), #circle border color
+                cat.col=c("#FFBAD2", "#66CCFF", "#F48FB1", "#0099CC"))
+makeVennDiagram(list(BCSC_B6_wdupsnarrowIgG1con_peaks.GR, BCSC_CAST_wdupsnarrowIgG1con_peaks.GR,BCSD_B6_wdupsnarrowIgG1con_peaks.GR, BCSD_CAST_wdupsnarrowIgG1con_peaks.GR),
                 NameOfPeaks=c("NUP107_8_B6", "NUP107_8_CAST", "NUP107_10_B6", "NUP107_10_CAST"),
                 totalTest=64914,scaled=FALSE, euler.d=FALSE,  ## set totalTest= total of 2 reps; tested with 250k then calc
                 fill=c("#FFBAD2", "#66CCFF", "#F48FB1","#0099CC"), # circle fill color

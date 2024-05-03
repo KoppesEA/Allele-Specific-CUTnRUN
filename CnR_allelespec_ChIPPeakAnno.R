@@ -1,4 +1,5 @@
 ##  Rscript ChIP-Peak analysis for Nup107 peaks
+##  ChIPpeakAnno, 
 ##  Erik Koppes
 ##  May 2 2024
 
@@ -10,7 +11,6 @@ BiocManager::install("biomaRt")
 
 library(ChIPpeakAnno)
 library(biomaRt)
-
 
 ## feature annotation
 listMarts()
@@ -82,3 +82,6 @@ peak1_annot <-
 
 y = peak1_annot$distancetoFeature[!is.na(peak1_annot$distancetoFeature)]
 hist(y, xlab = "Distance To Nearest TSS", main = "", breaks = 1000, xlim = c(min(y)-100, max(y) + 100))
+
+
+
