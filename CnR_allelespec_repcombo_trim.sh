@@ -6,7 +6,7 @@
 #SBATCH --output=CnRtrim-%A_%a.txt
 #SBATCH --cpus-per-task=4 # 4-cores
 #SBATCH --mem=16g # (see also --mem-per-cpu)
-#SBATCH --array=0-12 #13 samples
+#SBATCH --array=0-3 #13 samples
 
 #set path Fastq directories and output directories
 DIRfq=./fastq_repcombo
@@ -23,8 +23,8 @@ names=($(printf "IgG\nCTCF\nH3K4me3\nH3K27me3"))
 echo ${names[${SLURM_ARRAY_TASK_ID}]}
 
 fqname=${names[${SLURM_ARRAY_TASK_ID}]}
-INPUT_FASTQ1=BCS_repmerge_${fqname}_1.fastq.gz
-INPUT_FASTQ2=BCS_repmerge_${fqname}_2.fastq.gz
+INPUT_FASTQ1=$DIRfq/BCS_repmerge_${fqname}_1.fastq.gz
+INPUT_FASTQ2=$DIRfq/BCS_repmerge_${fqname}_2.fastq.gz
 
 echo "performing quality and adapter trimming for paired-end read on merged replicate R1 and R2:"
 echo $INPUT_FASTQ1

@@ -238,5 +238,48 @@ EK
     6280 ./snpsplt_broadpeaks_nodups_IgG2/BCSE_CAST_nodupsbroadIgG2con_peaks.broadPeak
        0 ./snpsplt_broadpeaks_nodups_IgG2/BCSF_B6_nodupsbroadIgG2con_peaks.broadPeak
        7 ./snpsplt_broadpeaks_nodups_IgG2/BCSF_CAST_nodupsbroadIgG2con_peaks.broadPeak
-       
-       Need to fix MACS2 script for IgG 1 as using names[6] when should be names[5] for IgG1 sample
+## 5/1/2024
+Need to fix MACS2 script for IgG 1 as using names[6] when should be names[5] for IgG1 sample
+completed rerun of BBMap Clumpify dedup scipt and QC
+Run fastqc on BBMap dedupe fastq; also check reports on avg ~10% of reads optical duplicates and removed
+module load multiqc/1.19
+[eak37@htc-n45 FastQC]$ pwd
+/ix1/mmann/KoppesEA/Nup107_CR_02262024/fastq_clumpify_dedup/FastQC
+[eak37@htc-n45 FastQC]$ multiqc --filename "CnR_allele_BBMapdedup_prettrim_multiQC" ./
+
+  /// MultiQC 🔍 | v1.19
+
+|           multiqc | MultiQC Version v1.21 now available!
+|           multiqc | Search path : /ix1/mmann/KoppesEA/Nup107_CR_02262024/fastq_clumpify_dedup/FastQC
+|         searching | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 52/52  
+|            fastqc | Found 26 reports
+|           multiqc | Report      : CnR_allele_BBMapdedup_prettrim_multiQC.html
+|           multiqc | Data        : CnR_allele_BBMapdedup_prettrim_multiQC_data
+|           multiqc | MultiQC complete
+
+pwd
+/ix1/mmann/KoppesEA/Nup107_CR_02262024/fastq_opticalremoved/FastQC
+multiqc --filename "CnR_allele_BBMapdedup_prettrim_multiQC" ./
+
+[eak37@htc-n45 trimfastq_dedup]$ pwd
+/ix1/mmann/KoppesEA/Nup107_CR_02262024/trimfastq_dedup
+[eak37@htc-n45 trimfastq_dedup]$ multiqc --filename "CnR_allele_BBMapdedup_posttrim_multiQC" ./
+
+  /// MultiQC 🔍 | v1.19
+
+|           multiqc | MultiQC Version v1.21 now available!
+|           multiqc | Search path : /ix1/mmann/KoppesEA/Nup107_CR_02262024/trimfastq_dedup
+|         searching | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 104/104  
+|          cutadapt | Found 26 reports
+|            fastqc | Found 26 reports
+|           multiqc | Report      : CnR_allele_BBMapdedup_posttrim_multiQC.html
+|           multiqc | Data        : CnR_allele_BBMapdedup_posttrim_multiQC_data
+|           multiqc | MultiQC complete
+
+for replicates either make separate repcombo.txt files or printf "IgG\nCTCF\nH3K4me3\nH3K27me3"
+
+[eak37@htc-n45 fastq_repcombo]$ names=($(printf "IgG\nCTCF\nH3K4me3\nH3K27me3"))
+[eak37@htc-n45 fastq_repcombo]$ names[0]
+bash: names[0]: command not found
+[eak37@htc-n45 fastq_repcombo]$ echo ${names[0]}
+IgG
