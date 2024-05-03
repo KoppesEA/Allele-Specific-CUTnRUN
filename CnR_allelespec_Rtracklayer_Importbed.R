@@ -8,7 +8,8 @@
 library(rtracklayer) #[also loads GR, IR and GenomeInfoDb]
 library(stringr)
 library(ChIPpeakAnno) # for EZ Venndigrams
-
+library(ChIPQC)
+BiocManager::install("ChIPQC")
 ## Sample MetaData
 BCS_meta<- data.frame(
   Sample_ID = c(paste0("BCS", LETTERS[1:6]), paste0("BCS", seq(1:7))),
@@ -118,9 +119,17 @@ makeVennDiagram(list(BCSB_B6_wdupsbroadIgG1con_peaks.GR, BCSB_CAST_wdupsbroadIgG
                 cat.col=c("#FFBAD2", "#66CCFF", "#F48FB1", "#0099CC"))
 
 # Venndiagram of Nup107 BCS _6 and _10 antibody B6(mat) and CAST(pat)
-makeVennDiagram(list(BCSB_B6_wdupsbroadIgG1con_peaks.GR, BCSB_CAST_wdupsbroadIgG1con_peaks.GR,BCSC_B6_wdupsbroadIgG1con_peaks.GR, BCSC_CAST_wdupsbroadIgG1con_peaks.GR),
-                NameOfPeaks=c("NUP107_6_B6", "NUP107_6_CAST", "NUP107_8_B6", "NUP107_8_CAST"),
-                totalTest=67644,scaled=FALSE, euler.d=FALSE,  ## set totalTest= total of 2 reps; tested with 250k then calc
+makeVennDiagram(list(BCSB_B6_wdupsbroadIgG1con_peaks.GR, BCSB_CAST_wdupsbroadIgG1con_peaks.GR,BCSD_B6_wdupsbroadIgG1con_peaks.GR, BCSD_CAST_wdupsbroadIgG1con_peaks.GR),
+                NameOfPeaks=c("NUP107_6_B6", "NUP107_6_CAST", "NUP107_10_B6", "NUP107_10_CAST"),
+                totalTest=64914,scaled=FALSE, euler.d=FALSE,  ## set totalTest= total of 2 reps; tested with 250k then calc
+                fill=c("#FFBAD2", "#66CCFF", "#F48FB1","#0099CC"), # circle fill color
+                col=c("#F20056", "#003399","#F20056", "#003399"), #circle border color
+                cat.col=c("#FFBAD2", "#66CCFF", "#F48FB1", "#0099CC"))
+
+# Venndiagram of Nup107 BCS _8 and _10 antibody B6(mat) and CAST(pat)
+makeVennDiagram(list(BCSC_B6_wdupsbroadIgG1con_peaks.GR, BCSC_CAST_wdupsbroadIgG1con_peaks.GR,BCSD_B6_wdupsbroadIgG1con_peaks.GR, BCSD_CAST_wdupsbroadIgG1con_peaks.GR),
+                NameOfPeaks=c("NUP107_8_B6", "NUP107_8_CAST", "NUP107_10_B6", "NUP107_10_CAST"),
+                totalTest=64914,scaled=FALSE, euler.d=FALSE,  ## set totalTest= total of 2 reps; tested with 250k then calc
                 fill=c("#FFBAD2", "#66CCFF", "#F48FB1","#0099CC"), # circle fill color
                 col=c("#F20056", "#003399","#F20056", "#003399"), #circle border color
                 cat.col=c("#FFBAD2", "#66CCFF", "#F48FB1", "#0099CC"))
