@@ -28,7 +28,7 @@ IP_SPLTBAM_B6=$DIRsplitbam/${fqname}_bt2aln.genome1.bam
 IP_SPLTBAM_CAST=$DIRsplitbam/${fqname}_bt2aln.genome2.bam
 
 #Define input IP control could also use [12]
-fqname_IgG=${names[5]}
+fqname_IgG=${names[6]}
 IGG_SPLTBAM_B6=$DIRsplitbam/${fqname_IgG}_bt2aln.genome1.bam
 IGG_SPLTBAM_CAST=$DIRsplitbam/${fqname_IgG}_bt2aln.genome2.bam
 
