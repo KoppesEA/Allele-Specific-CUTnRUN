@@ -1,16 +1,16 @@
 #!/bin/bash
 #
 #SBATCH -N 1 # 1 node
-#SBATCH -t 1-00:00 # Runtime in D-HH:MM
-#SBATCH -J CnR_BBddup
-#SBATCH --output=CnR_BBddup-%A_%a.txt
+#SBATCH -t 3-00:00 # Max Runtime in D-HH:MM
+#SBATCH -J CnR_BBinterleave_dddup_unpairepair
+#SBATCH --output=CnR_BBMap_clumpify_dedup_unpairepair-%A_%a.txt
 #SBATCH --cpus-per-task=1 # 1-core, not parallel
 #SBATCH --mem=8g # (see also --mem-per-cpu)
 #SBATCH --array=0-12 #13 samples
 
 #set path Fastq directories and output directories
 DIRfq=./rawfastq
-DIRdedup=./fastq_opticalremoved
+DIRdedup=./fastq_clumpify_dedup_unpairrepair
 
 #make output directory
 mkdir $DIRdedup
@@ -26,8 +26,8 @@ fqname=${names[${SLURM_ARRAY_TASK_ID}]}
 INPUT_FASTQ1=$DIRfq/${fqname}_1.fastq.gz
 INPUT_FASTQ2=$DIRfq/${fqname}_2.fastq.gz
 
-OUTPUT_FASTQ1=$DIRdedup/${fqname}_optdedupe_1.fastq.gz
-OUTPUT_FASTQ2=$DIRdedup/${fqname}_optdedupe_2.fastq.gz
+OUTPUT_FASTQ1=$DIRdedup/${fqname}_optdedupe_unpairrepair_1.fastq.gz
+OUTPUT_FASTQ2=$DIRdedup/${fqname}_optdedupe_unpairrepair_2.fastq.gz
 
 echo "performing optical read deduplication with BBMap clumpify dedupe"
 echo $INPUT_FASTQ1

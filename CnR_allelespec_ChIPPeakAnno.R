@@ -10,7 +10,7 @@ BiocManager::install("ChIPpeakAnno")
 BiocManager::install("biomaRt")
 
 library(ChIPpeakAnno)
-library(biomaRt)
+library(biomaRt)pw
 
 ## feature annotation
 listMarts()
