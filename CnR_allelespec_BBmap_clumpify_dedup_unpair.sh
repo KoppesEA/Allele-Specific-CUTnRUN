@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 #SBATCH -N 1 # 1 node
-#SBATCH -t 3-00:00 # Max Runtime in D-HH:MM
+#SBATCH -t 6-00:00 # 6d Max Runtime in D-HH:MM
 #SBATCH -J CnR_BBinterleave_dddup_unpairepair
 #SBATCH --output=CnR_BBMap_clumpify_dedup_unpairepair-%A_%a.txt
 #SBATCH --cpus-per-task=1 # 1-core, not parallel
