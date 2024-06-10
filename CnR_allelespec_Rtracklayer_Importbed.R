@@ -54,11 +54,6 @@ for (bedFile in list.files(MACSnarrowpeakIgG2, pattern = ".narrowPeak")) {
   print(bedFile)
 }
 
-## Examine mat/pat CTCF overlap for rep1 and rep2
-peak_overlap_CTCF_rep1 <- findOverlaps(BCS1_B6_wdupsbroadIgG1con_peaks.GR, BCS1_CAST_wdupsbroadIgG1con_peaks.GR)
-peak_overlap_CTCF_rep1
-test <- findOverlapsOfPeaks(BCS1_B6_wdupsbroadIgG1con_peaks.GR, BCS1_CAST_wdupsbroadIgG1con_peaks.GR,BCS2_B6_wdupsbroadIgG1con_peaks.GR, BCS2_CAST_wdupsbroadIgG1con_peaks.GR) 
-
 ## Use makeVennDiagram Function from ChipPeakAnno to generate Venn Diagram 
 
 ## Should use narrowPeak CTCF and H3K4me3; broadPeak for H3K27me3; IgG2 norm for all
@@ -190,3 +185,15 @@ makeVennDiagram(list(BCSC_B6_wdupsnarrowIgG1con_peaks.GR, BCSC_CAST_wdupsnarrowI
                 fill=c("#FFBAD2", "#66CCFF", "#F48FB1","#0099CC"), # circle fill color
                 col=c("#F20056", "#003399","#F20056", "#003399"), #circle border color
                 cat.col=c("#FFBAD2", "#66CCFF", "#F48FB1", "#0099CC"))
+
+##
+
+
+###### Extract overlap regions of interest:
+
+## Examine mat/pat CTCF overlap for rep1 and rep2
+peak_overlap_CTCF_rep1 <- findOverlaps(BCS1_B6_wdupsbroadIgG1con_peaks.GR, BCS1_CAST_wdupsbroadIgG1con_peaks.GR)
+peak_overlap_CTCF_rep1
+test <- findOverlapsOfPeaks(BCS1_B6_wdupsbroadIgG1con_peaks.GR, BCS1_CAST_wdupsbroadIgG1con_peaks.GR,BCS2_B6_wdupsbroadIgG1con_peaks.GR, BCS2_CAST_wdupsbroadIgG1con_peaks.GR) 
+test$peaklist$'BCS1_CAST_wdupsbroadIgG1con_peaks.GR///BCS2_CAST_wdupsbroadIgG1con_peaks.GR'
+
