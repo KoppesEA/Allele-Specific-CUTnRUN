@@ -2,6 +2,7 @@
 ## June 2024
 ## snpsplt-CutNRun output
 ## Rscript to convert MACS2 bedgraph output to bigwig
+## Some help from Claude (Anthropic AI)
 
 # Load Dependencies 
 library(rtracklayer) #[also loads GR, IR and GenomeInfoDb]
@@ -29,7 +30,7 @@ bdgTobw <- function(bdg_directory) {
   for (bedGraph_name in ls(pattern = "_bedGraphGR$")) {
     print(paste0("Exporting: ", bedGraph_name))
     bedGraph_obj <- get(bedGraph_name)  # Get the actual object
-    bwOut <- paste0(bdg_directory, "/", str_remove(bedGraph_name, "_bedGraph"), ".bw")
+    bwOut <- paste0(bdg_directory, "/", str_remove(bedGraph_name, "_bedGraphGR"), ".bw")
     print(bwOut)
     rtracklayer::export.bw(bedGraph_obj, con = bwOut)
   }

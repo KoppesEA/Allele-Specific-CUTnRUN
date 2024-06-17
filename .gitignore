@@ -1,5 +1,6 @@
 FastQC/
 MACS/
+snpsplit/
 .DS_store
 CnR_notes.txt
 BCS_metadata.txt
