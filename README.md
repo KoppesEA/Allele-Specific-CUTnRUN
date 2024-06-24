@@ -24,6 +24,7 @@ From within the output Cast SNPs_CAST_EiJ (CAST_EiJ_full_sequence) and Nmask (CA
 `cat chr*.fa > Mus_musculus.GRCm39.109.dna.CASTEiJ.fa`
 `cat chr*.fa > Mus_musculus.GRCm39.109.dna.NMASK.fa`
 
+
 ## References and Links
 https://felixkrueger.github.io/SNPsplit/genome_prep/legacy/
 https://ftp.ebi.ac.uk/pub/databases/mousegenomes/
