@@ -7,5 +7,10 @@ BCS_metadata.txt
 Macs2.callpeak.help.txt
 Macs2.help.txt
 snpsplit.help.txt
-.Rproj.user
+
+# R objects to ignore
 Allele-Specific-CUTnRUN.Rproj
+.Rproj.user
+.RData
+.Rhistory
+
